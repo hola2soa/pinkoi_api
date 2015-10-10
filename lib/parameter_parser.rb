@@ -8,6 +8,7 @@ class ParameterParser
   @@valid_args = [:category, :price, :subcategory, :location, :material]
 
   def validate_args
+    #ARGV[0] = '--category=1' if ARGV.empty?
     ARGV.each do |arg|
       begin
         match = /--(?<key>.*?)=(?<value>.*)/.match(arg)
