@@ -1,5 +1,4 @@
-ource 'https://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'minitest'
 gem 'oga'
-
