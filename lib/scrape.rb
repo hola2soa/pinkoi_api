@@ -2,40 +2,49 @@
 require 'oga'
 require 'open-uri'
 
+# scrape data
 module Scraper
-  # scrape data
+  # filter class basically uses xpath selectors to get attribs
   class Filter
     attr_reader :result
+    attr_writer :item_selector
+    attr_writer :title_selector
+    attr_writer :price_selector
+    attr_writer :site_url
+
     private
-    ITEM_SELECTOR = "//div[contains(@class,\'items\')]/div"
-    TITLE_SELECTOR = "div[contains(@class,\'title\')]"
-    PRICE_SELECTOR = "div[@class=\'info\']/div[@class=\'price\']"
 
     def get_xmldata(url)
-      begin
-        raw_html = open(url)
-        doc = Oga.parse_html(raw_html)
-
-      rescue Exception
-        "error"
-      end
+      raw_html = open(url)
+      Oga.parse_html(raw_html)
+    rescue StandardError
+      'error'
     end
 
     public
+
     def initialize
       @result = []
+      # xml selectors that will be used to scrape data
+      @item_selector = "//div[contains(@class,\'items\')]/div"
+      @title_selector = "div[contains(@class,\'title\')]"
+      @price_selector = "div[@class=\'info\']/div[@class=\'price\']"
+      @site_url = 'http://www.pinkoi.com/browse?'
     end
 
-    def fetch_result(url)
+    def fetch_result(uri = 'category=1')
+      url = @site_url + uri
+      # try to open the url
       document = get_xmldata(url)
-      return [] unless document != "error"
+      # hard return on an error
+      return [] unless document != 'error'
 
-      items = document.xpath(ITEM_SELECTOR)
+      items = document.xpath(@item_selector)
+      # loop through the items and get the title and price
       items.map do |item|
-        title = item.xpath(TITLE_SELECTOR).text
-        price = item.xpath(PRICE_SELECTOR).text
-        @result <<
-        {:title => "#{title}", :price => "#{price}"} unless title.empty?
+        title = item.xpath(@title_selector).text
+        price = item.xpath(@price_selector).text
+        @result << { title: "#{title}", price: "#{price}" } unless title.empty?
       end
       result
     end
