@@ -18,9 +18,6 @@ describe 'get itmes form category2' do
 				#search for the same title name ,and then compare the prices
 				if item_found[:title] == item_from_file.keys[0]
 					item_found[:price].must_equal item_from_file.values[0]
-				# search for the same title name, and then compare the prices
-				if item_found[:title] == item_from_file.keys
-					item_found[:price].must_equal item_from_file.values
 				end
 			end
 		end
