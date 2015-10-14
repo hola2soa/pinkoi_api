@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'minitest'
-gem 'minitest-rg'
 gem 'oga'
+
+group :test do
+  gem 'rake'
+  gem 'minitest'
+  gem 'minitest-rg'
+end
