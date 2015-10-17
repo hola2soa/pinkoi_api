@@ -3,8 +3,8 @@ require 'minitest/rg'
 require 'yaml'
 require 'vcr'
 require 'webmock/minitest'
-require './lib/parameter_parser'
-require './lib/scrape'
+require './lib/pinkoi/parameter_parser'
+require './lib/pinkoi/scrape'
 
 
 VCR.configure do |config|
