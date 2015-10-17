@@ -1,4 +1,4 @@
-# Pinkoi [![Build Status](https://travis-ci.org/hola2soa/pinkoi_api.svg?branch=master)](https://travis-ci.org/hola2soa/pinkoi_api)
+# Pinkoi [![Gem Version](https://badge.fury.io/rb/pinkoi.svg)](https://badge.fury.io/rb/pinkoi) [![Build Status](https://travis-ci.org/hola2soa/pinkoi_api.svg?branch=master)](https://travis-ci.org/hola2soa/pinkoi_api)
 
 Pinkoi is an ecommerce website but does not have an api.
 This API allows the scrapping of the site to extract the title and price
