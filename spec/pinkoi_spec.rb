@@ -1,25 +1,46 @@
 require 'minitest/autorun'
 require 'minitest/rg'
 require 'yaml'
-require_relative '../lib/parameter_parser'
-require_relative '../lib/scrape'
+require 'vcr'
+require 'webmock/minitest'
+require './lib/parameter_parser'
+require './lib/scrape'
 
-scraper = Scraper::Filter.new
 
-items_from_file = YAML.load(File.read('./testfiles/items.yml'))
-items_found = scraper.fetch_result('category=2')
+VCR.configure do |config|
+	config.cassette_library_dir = './spec/testfiles/vcr_cassettes'
+	config.hook_into :webmock
+end
 
-describe 'get itmes form category2' do
-	items_from_file['category2'].each do |item_from_file|
-		# item_from_file.keys has only one key which is item's title
-		# and has only one value which is item's price
-		it "finds '#{item_from_file.keys}' item" do
-			items_found.each do |item_found|
-				#search for the same title name ,and then compare the prices
-				if item_found[:title] == item_from_file.keys[0]
-					item_found[:price].must_equal item_from_file.values[0]
-				end
+VCR.use_cassette 'pinkoi1' do
+	describe 'pinkoi' do
+		before do
+			@scraper = Scraper::Filter.new
+		end
+
+		describe 'fetch items from category 2' do
+			before do
+				VCR.insert_cassette 'category 2'
+			end
+
+			after do
+				VCR.eject_cassette
+			end
+
+			it 'structure check' do
+				items = @scraper.fetch_result('category=2')
+
+				items.must_be_instance_of       Array
+				items.wont_be_empty
+				items.first.must_be_instance_of Hash
+				items.wont_be_empty
+
+				items.first[:title].wont_be_nil
+				items.first[:title].must_be_instance_of String
+				items.first[:price].wont_be_nil
+				items.first[:price].must_be_instance_of String
 			end
 		end
+
 	end
 end
