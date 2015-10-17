@@ -3,7 +3,7 @@ require 'oga'
 require 'open-uri'
 
 # scrape data
-module Scraper
+module PinkoiScraper
   # filter class basically uses xpath selectors to get attribs
   class Filter
     attr_reader :result
