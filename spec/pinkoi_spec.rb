@@ -4,18 +4,18 @@ require 'yaml'
 require 'vcr'
 require 'webmock/minitest'
 require './lib/pinkoi/parameter_parser'
-require './lib/pinkoi/scrape'
+require './lib/pinkoi/pinkoi_scraper'
 
 
 VCR.configure do |config|
-  config.cassette_library_dir = './spec/testfiles/vcr_cassettes'
+  config.cassette_library_dir = './spec/fixtures/vcr_cassettes'
   config.hook_into :webmock
 end
 
 VCR.use_cassette 'pinkoi1' do
   describe 'pinkoi' do
     before do
-      @scraper = Scraper::Filter.new
+      @scraper = PinkoiScraper::Filter.new
     end
 
     describe 'fetch items from category 2' do

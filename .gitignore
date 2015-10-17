@@ -5,4 +5,4 @@
 Gemfile.lock
 
 # testfiles
-spec/testfiles/vcr_cassettes/
+spec/fixtures/vcr_cassettes/
